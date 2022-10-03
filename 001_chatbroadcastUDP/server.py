@@ -1,7 +1,7 @@
+from email import message
 from socket import AF_INET, SO_BROADCAST, SOCK_DGRAM, socket
 from ssl import SOL_SOCKET   #usiamo from cosi ogni volta non dobbiamo scrivere socket.---
-
-
+from packet import Packet
 
 BUFFER_SIZE = 1024
 PORT=int(input("inserisci una porta: "))
@@ -18,9 +18,9 @@ def chatserver(HOST,PORT):
         while exit==False:
             
             msg = s.recvfrom(BUFFER_SIZE)
-            
-            msg = msg[0].decode()
             print(msg)
+            pkt=Packet.from_bytes(msg[0])
+            print(pkt.username + " ha inviato il messaggio: " + pkt.message + ".")
 
 if __name__ == "__main__":
     chatserver(HOST,PORT)
